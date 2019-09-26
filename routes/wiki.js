@@ -14,7 +14,8 @@ router.post('/' , async (req , res, next) => {
 
     const page = new Page({
         title: req.body.title,
-        content: req.body.content
+        content: req.body.content,
+        slug: sluggify(req.body.title)
     })
 
     if(req.body.status == 'open'){
@@ -37,6 +38,14 @@ router.post('/' , async (req , res, next) => {
     console.log("Status is ", status);
     res.send(req.body)
 })
+
+function sluggify(title){
+    let slugged = title.replace(" ", "_");
+    slugged = slugged.replace(/[\W]+/g , "")
+    return slugged;
+}
+
+
 router.get('/add' , (re, res)=>{
     res.send(addPage());
 })
